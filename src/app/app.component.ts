@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {GoalModel} from "./models/goal.model";
-import {NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {GoalService} from "./services/goal.service";
+import {ModalComponent} from "./components/modal/modal.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgForOf, FormsModule, NgIf],
+  imports: [RouterOutlet, NgForOf, FormsModule, NgIf, ModalComponent, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [GoalService]
@@ -16,30 +17,24 @@ import {GoalService} from "./services/goal.service";
 export class AppComponent {
 
   public title = 'metas';
-  public goals: GoalModel[] = [];
+  public $goals = this._todoService.$goals;
   public newGoal: string = '';
 
-  public showModal: boolean = true;
+  public showModal: boolean = false;
 
   constructor(private _todoService: GoalService) {
-    this.goals = _todoService.goals;
   }
 
 
   public addGoal() {
 
     if(this.newGoal === '') return alert('Ingrese una meta');
-
-    this._todoService.addGoal({
-      id: this.goals.length + 1,
-      title: this.newGoal,
-      completed: false
-    });
+    this.showModal = true;
     this.newGoal = '';
   }
 
   public editGoal(goal: GoalModel) {
-
+    this._todoService.editGoal(goal);
   }
 
   public showDropdown(){
@@ -47,7 +42,17 @@ export class AppComponent {
   }
 
   public deleteGoal(goal: GoalModel) {
+    this._todoService.deleteGoal(goal);
+  }
+
+  closeModal(e: any) {
+    console.log('closeModal', e);
+    this.showModal = e;
+  }
+
+  public toggleGoal(){
 
   }
 
+  protected readonly event = event;
 }

@@ -1,5 +1,7 @@
 export interface GoalModel {
     id: number;
     title: string;
-    completed: boolean;
+    action: string;
+    frequency: string;
+    isCompleted: boolean;
 }

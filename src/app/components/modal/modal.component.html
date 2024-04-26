@@ -1,68 +1,32 @@
-<div
-  role="dialog"
-  id="modal-example"
-  aria-hidden="false"
-  style="display: flex;"
-  class="modal fixed top-0 left-0 z-50 w-screen h-screen bg-black/30 flex items-center flex-col justify-center p-6 fade"
-  tabindex="-1"
->
+<div *ngIf="showModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
+  <div class="bg-white rounded shadow-md p-8 w-full mx-10">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">Ingresa el detalle de la meta a realizar</h2>
+      <button class="text-gray-600 hover:text-gray-800" (click)="closeModal()">Close</button>
+    </div>
+    <div class="">
+      <!-- Contenido del modal -->
+      <div class="mb-3">
+        <label for="action" class="text-sm text-navy-700 text-dark font-bold">Accion</label>
+        <input
+          [(ngModel)]="action"
+          type="text" id="action" placeholder="Caminar" class="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200">
+      </div>
 
-  <div
-    class="absolute top-0 left-0 z-[0] w-full h-full"
-    tabindex="-1"
-  ></div>
+      <div class="mb-3">
+        <label for="frequency" class="text-sm text-navy-700 text-dark font-bold">Frecuencia</label>
+        <input
+          [(ngModel)]="frequency"
+          type="text" id="frequency" placeholder="2 dias"
+          class="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200">
+      </div>
 
-  <article
-    class="modal-content flex flex-col relative m-0 rounded-md bg-white sm:my-16"
-    aria-labelledby="modal-title"
-    aria-describedby="modal-body"
-  >
+      <div class="flex justify-end">
+        <!-- generate buttons -->
+        <button (click)="addGoal()" class="bg-green-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-green-800 mx-2">Guardar</button>
+        <button (click)="closeModal()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-red-400 mx-2">Cancelar</button>
+      </div>
 
-    <header class="flex p-4 items-center justify-between">
-      <h2 class="m-0 text-xl font-medium max-w-[calc(100%_-_3rem)]">Modal title</h2>
-      <button
-        type="button"
-        class="flex items-center justify-center w-8 h-8 rounded-full bg-transparent transition-colors duration-300 hover:bg-black/10"
-        data-dismiss="modal"
-        aria-label="Close"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#000000"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          style="--size: 32rem"
-        >
-          <line x1="18" y1="6" x2="6" y2="18" style="--size: 32rem"></line>
-          <line x1="6" y1="6" x2="18" y2="18" style="--size: 32rem"></line>
-        </svg>
-      </button>
-    </header>
-    <main class="relative flex-[1_1_auto] p-4" style="--size: 32rem">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing…</p>
-    </main>
-    <footer class="flex flex-shrink-0 flex-wrap items-center justify-end flex-row p-4 gap-1" style="--size: 32rem">
-      <button
-        type="button"
-        class="flex items-center justify-center px-4 font-medium bg-gray-200 text-black h-9 rounded-md rounded md hover:bg-gray-300 transition-all duration-300"
-        data-dismiss="modal"
-      >
-          <span class="flex items-center justify-center space-x-2"
-          >Close</span
-          ></button
-      ><button
-      type="button"
-      class="flex items-center justify-center px-4 font-medium bg-violet-700 text-white h-9 rounded-md rounded md hover:bg-violet-800 transition-all duration-300"
-    >
-          <span class="flex items-center justify-center space-x-2"
-          >Save changes</span
-          >
-    </button>
-    </footer>
-  </article>
+    </div>
+  </div>
 </div>
