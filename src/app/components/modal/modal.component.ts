@@ -20,7 +20,6 @@ export class ModalComponent implements OnInit,  OnChanges{
 
   @Input() showModal: boolean = false;
   @Output() closeModalEvent = new EventEmitter();
-  @Input() newGoal: string = '';
 
   constructor(private _goalsService: GoalService) {
   }
@@ -38,12 +37,12 @@ export class ModalComponent implements OnInit,  OnChanges{
   public addGoal(){
     this._goalsService.addGoal({
       id: this._goalsService.goals.length + 1,
-      title: this.newGoal,
+      title: this._goalsService.nameGoal,
       action: this.action,
       frequency: this.frequency,
       isCompleted: false
     });
-    this.newGoal = '';
+    this._goalsService.nameGoal = '';
     this.action = '';
     this.frequency = '';
     this.closeModal();

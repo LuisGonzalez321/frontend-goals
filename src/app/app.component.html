@@ -1,4 +1,16 @@
 <div class="w-full px-20">
+
+  <!-- Create a navbar for user info -->
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center">
+      <img src="" alt="user" class="w-10 h-10 rounded-full" />
+      <div class="ml-4">
+        <h3 class="text-lg font-bold">Nombre del usuario</h3>
+        <p class="text-gray-500">Correo del usuario</p>
+      </div>
+    </div>
+  </div>
+
   <h2 class="text-xl font-bold mb-4">Lista de metas</h2>
 
   <div class="flex mb-4">
@@ -11,16 +23,17 @@
 
 
   <ul>
-    <li *ngFor="let goal of $goals | async" class="flex items-center justify-between border-b border-gray-200 py-2">
-
+    <li [ngClass]="goal.isCompleted? 'bg-green-100':''" *ngFor="let goal of ($goals | async)" class="flex items-center justify-between border border-gray-200 py-2 px-3 my-2 rounded">
+      <p>Meta</p>
       <div class="inline-flex items-center">
         <label class="relative flex cursor-pointer items-center rounded-full p-3"
           for="checkbox-7" data-ripple-dark="true">
           <input type="checkbox"
             class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-purple-500 checked:bg-purple-500 checked:before:bg-purple-500 hover:before:opacity-10"
             id="checkbox-7"
-            checked
-
+            [(ngModel)]="goal.isCompleted"
+            checked="{{ goal.isCompleted }}"
+            (change)="toggleGoal(goal)"
           />
           <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
             <svg
@@ -43,8 +56,8 @@
 
       <span>{{ goal.title }}</span>
       <div class="flex">
-        <p class="text-gray-500">{{ goal.action }}</p>
-        <p class="text-gray-500">{{ goal.frequency }}</p>
+        <p class="text-gray-500 mx-2">{{ goal.action }}</p>
+        <p class="text-gray-500 mx-2">{{ goal.frequency }}</p>
       </div>
       <div class="gap-2">
         <button class="text-yellow-500 hover:text-yellow-600 mx-1" (click)="editGoal(goal)">Editar</button>
