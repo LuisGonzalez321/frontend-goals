@@ -4,26 +4,46 @@
       <h2 class="text-xl font-semibold">Ingresa el detalle de la meta a realizar</h2>
       <button class="text-gray-600 hover:text-gray-800" (click)="closeModal()">Close</button>
     </div>
+
+
+
     <div class="">
       <!-- Contenido del modal -->
+
       <div class="mb-3">
-        <label for="action" class="text-sm text-navy-700 text-dark font-bold">Accion</label>
+        <label for="codigo" class="text-sm text-navy-700 text-dark font-bold">codigo</label>
         <input
-          [(ngModel)]="action"
-          type="text" id="action" placeholder="Caminar" class="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200">
+          [(ngModel)]="codigo"
+          type="text" id="codigo" placeholder="Caminar" class="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200">
       </div>
 
       <div class="mb-3">
-        <label for="frequency" class="text-sm text-navy-700 text-dark font-bold">Frecuencia</label>
+        <label for="accion" class="text-sm text-navy-700 text-dark font-bold">accion</label>
         <input
-          [(ngModel)]="frequency"
-          type="text" id="frequency" placeholder="2 dias"
+          [(ngModel)]="accion"
+          type="text" id="accion" placeholder="Caminar" class="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200">
+      </div>
+
+      <div class="mb-3">
+        <label for="frecuencia" class="text-sm text-navy-700 text-dark font-bold">frecuencia</label>
+        <input
+          [(ngModel)]="frecuencia"
+          type="text" id="frecuencia" placeholder="2 dias"
           class="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200">
       </div>
 
+      <div class="mb-3">
+        <label for="descripcion" class="text-sm text-navy-700 text-dark font-bold">descripcion</label>
+        <input
+          [(ngModel)]="descripcion"
+          type="text" id="descripcion" placeholder="2 dias"
+          class="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200">
+      </div>
+
+
       <div class="flex justify-end">
         <!-- generate buttons -->
-        <button (click)="addGoal()" class="bg-green-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-green-800 mx-2">Guardar</button>
+        <button (click)="addSubGoal()" class="bg-green-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-green-800 mx-2">Guardar</button>
         <button (click)="closeModal()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-red-400 mx-2">Cancelar</button>
       </div>
 

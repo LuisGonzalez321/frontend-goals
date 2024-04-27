@@ -1,7 +1,12 @@
+import {Submeta} from "./subgoal.model";
+
 export interface GoalModel {
-    id: number;
-    title: string;
-    action: string;
-    frequency: string;
-    isCompleted: boolean;
+  id?: number;
+  codigo: string;
+  titulo: string;
+  descripcion: string;
+  estado?: boolean;
+  created_at?: string;
+  updated_at?: string;
+  submetas?: Submeta[];
 }

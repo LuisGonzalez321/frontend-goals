@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {NgIf} from "@angular/common";
 import {GoalService} from "../../services/goal.service";
 import {FormsModule} from "@angular/forms";
+import {SubgoalService} from "../../services/subgoal.service";
 
 @Component({
   selector: 'app-modal',
@@ -15,13 +16,18 @@ import {FormsModule} from "@angular/forms";
 })
 export class ModalComponent implements OnInit,  OnChanges{
 
-  public action: string = '';
-  public frequency: string = '';
+
+  public accion: string = '';
+  public frecuencia: string = '';
+  public codigo: string = '';
+  public descripcion: string = '';
+  public estado: boolean = false;
+  @Input() public meta_id: number = 0;
 
   @Input() showModal: boolean = false;
   @Output() closeModalEvent = new EventEmitter();
 
-  constructor(private _goalsService: GoalService) {
+  constructor(private _subGoalService: SubgoalService) {
   }
 
   public ngOnInit() {
@@ -30,21 +36,23 @@ export class ModalComponent implements OnInit,  OnChanges{
 
   public ngOnChanges(changes:SimpleChanges ) {
     if(changes['showModal'].currentValue) {
-       this.showModal = changes['showModal'].currentValue;
+       this.showModal = changes['showModal']?.currentValue;
+    }
+    if(changes['meta_id']?.currentValue) {
+      this.meta_id = changes['meta_id']?.currentValue ?? this._subGoalService.idGoal;
     }
   }
 
-  public addGoal(){
-    this._goalsService.addGoal({
-      id: this._goalsService.goals.length + 1,
-      title: this._goalsService.nameGoal,
-      action: this.action,
-      frequency: this.frequency,
-      isCompleted: false
+  public addSubGoal(){
+    if([this.codigo, this.descripcion].includes('')) return alert('Verifique el formulario');
+    this._subGoalService.addSubGoal({
+      codigo: this.codigo,
+      descripcion: this.descripcion,
+      estado: this.estado,
+      accion: this.accion,
+      frecuencia: this.frecuencia,
+      meta_id: this.meta_id
     });
-    this._goalsService.nameGoal = '';
-    this.action = '';
-    this.frequency = '';
     this.closeModal();
   }
 

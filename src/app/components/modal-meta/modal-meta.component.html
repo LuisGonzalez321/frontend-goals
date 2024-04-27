@@ -1,0 +1,49 @@
+
+<div *ngIf="showModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
+  <div class="bg-white rounded shadow-md p-8 w-full mx-10">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">Ingresa los datos a modificar</h2>
+      <button class="text-gray-600 hover:text-gray-800" (click)="closeModal()">Close</button>
+    </div>
+
+    <div class="">
+      <!-- Contenido del modal -->
+
+      <div class="gap-1 flex flex-col justify-center">
+        <!-- create label with styles-->
+        <label class="text-gray-500 block">Titulo</label>
+        <input type="text"
+               class="flex-1 rounded-l py-2 px-4 border border-b-cyan-600"
+               [(ngModel)]="titulo"
+               placeholder="" />
+      </div>
+
+      <div class="gap-1 flex flex-col justify-center">
+        <!-- create label with styles-->
+        <label class="text-gray-500 block">Codigo</label>
+        <input
+          readonly
+          type="text"
+               class="flex-1 rounded-l py-2 px-4 border border-b-cyan-600"
+               [(ngModel)]="codigo"
+               placeholder="" />
+      </div>
+
+      <div class="gap-1 flex flex-col justify-center">
+        <!-- create label with styles-->
+        <label class="text-gray-500 block">Descripcion</label>
+        <input type="text"
+               class="flex-1 rounded-l py-2 px-4 border border-b-cyan-600"
+               [(ngModel)]="descripcion"
+               placeholder="" />
+      </div>
+
+      <div class="flex justify-end">
+        <!-- generate buttons -->
+        <button (click)="updateSubGoal()" class="bg-green-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-green-800 mx-2">Guardar</button>
+        <button (click)="closeModal()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-red-400 mx-2">Cancelar</button>
+      </div>
+
+    </div>
+  </div>
+</div>

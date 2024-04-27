@@ -1,86 +1,80 @@
 import { Injectable } from '@angular/core';
 import {GoalModel} from "../models/goal.model";
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, Subject} from "rxjs";
+import {map, Observable, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoalService {
 
-  public goals: GoalModel[] = [
-    {
-      id: 1,
-      title: 'Goal 1',
-      action: 'Action 1',
-      frequency: 'Frequency 1',
-      isCompleted: false
-    },
-    {
-      id: 2,
-      title: 'Goal 2',
-      action: 'Action 2',
-      frequency: 'Frequency 2',
-      isCompleted: false
-    },
-    {
-      id: 3,
-      title: 'Goal 3',
-      action: 'Action 3',
-      frequency: 'Frequency 3',
-      isCompleted: false
-    },
-    {
-      id: 4,
-      title: 'Goal 4',
-      action: 'Action 4',
-      frequency: 'Frequency 4',
-      isCompleted: true
-    },
-  ];
-  public $goals = new BehaviorSubject<GoalModel[]>(this.goals);
-  public nameGoal: string = '';
+  public baseUrl: string = 'http://localhost:5000/v1/';
+
+  public goals: GoalModel[] = [];
+
+  public $goals = new Subject<GoalModel[]>();
+
+  public codeEditGoal: string = '';
+
+  public http: HttpClient;
 
   constructor(httpClient: HttpClient) {
-    console.log('GoalService constructor');
-    // httpClient.get('https://pokeapi.co/api/v2/pokemon/ditto').subscribe({
-    //   next: (response) => {
-    //     console.log(response);
-    //   },
-    //   error: (error) => {
-    //     console.error(error);
-    //   },
-    //   complete: () => {
-    //     console.log('complete');
-    //   }
-    // });
+    this.http = httpClient;
   }
 
-  public addGoal(goal: GoalModel) {
-    this.goals.push(goal);
-    this.$goals.next(this.goals);
+  public getGoals(): Observable<GoalModel[]>{
+    return this.http.post(this.baseUrl + 'metas/metasAll/', {}).pipe(
+      map((res: any) => {
+        console.log('res', res);
+        // filter if status is null
+        this.goals = res.filter((goal: GoalModel) => goal.estado !== null);
+        this.$goals.next(this.goals);
+        return this.goals;
+      }),
+    );
   }
 
-  public editGoal(goal: GoalModel) {
-    this.goals = this.goals.map((g: GoalModel) => {
-      if(g.id === goal.id) {
-        g.title = goal.title;
-        g.action = goal.action;
-        g.frequency = goal.frequency;
-      }
-      return g;
+  public addGoal(goal: GoalModel):Observable<GoalModel[]> {
+    return this.http.post(this.baseUrl + 'metas/', goal).pipe(
+      map((res: any) => {
+        console.log('res', res);
+        this.goals = res;
+        this.$goals.next(this.goals);
+        return res;
+      })
+    );
+  }
+
+  public editGoal(codigo:string, goal: GoalModel) {
+    // add http
+    this.http.put(this.baseUrl + 'metas/'+codigo, goal).subscribe((res: any) => {
+      this.goals = res;
+      this.$goals.next(this.goals);
     });
-    this.$goals.next(this.goals);
   }
 
   public deleteGoal(goal: GoalModel) {
-    this.goals = this.goals.filter((g: GoalModel) => g.id !== goal.id);
-    this.$goals.next(this.goals);
+    // add http
+    this.http.delete(this.baseUrl + 'metas/' + goal.codigo).subscribe(()=>{
+      this.goals = this.goals.filter((g: GoalModel) => g.codigo !== goal.codigo);
+      this.$goals.next(this.goals);
+    });
   }
 
-  public updateStatus(goal: GoalModel) {
-    this.goals[this.goals.findIndex((g: GoalModel) => g.id === goal.id)].isCompleted = !goal.isCompleted;
-    this.$goals.next(this.goals);
+  public updateStatus(codigo:string, goal: GoalModel) {
+    // add http
+    this.http.put(this.baseUrl + 'metas/'+codigo, goal).subscribe((res: any) => {
+      this.goals = res;
+      this.$goals.next(this.goals);
+    });
+  }
+
+  public getGoalByCode(codigo: string): Observable<GoalModel> {
+    return this.http.get(this.baseUrl + 'metas/'+codigo).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
   }
 
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TodoComponent } from './todo.component';
+import { ModalMetaComponent } from './modal-meta.component';
 
-describe('TodoComponent', () => {
-  let component: TodoComponent;
-  let fixture: ComponentFixture<TodoComponent>;
+describe('ModalMetaComponent', () => {
+  let component: ModalMetaComponent;
+  let fixture: ComponentFixture<ModalMetaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TodoComponent]
+      imports: [ModalMetaComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TodoComponent);
+    fixture = TestBed.createComponent(ModalMetaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

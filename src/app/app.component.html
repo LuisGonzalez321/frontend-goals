@@ -1,39 +1,52 @@
 <div class="w-full px-20">
+  <h2 class="text-xl font-bold mb-4">Agrega una nueva meta</h2>
 
-  <!-- Create a navbar for user info -->
-  <div class="flex items-center justify-between mb-4">
-    <div class="flex items-center">
-      <img src="" alt="user" class="w-10 h-10 rounded-full" />
-      <div class="ml-4">
-        <h3 class="text-lg font-bold">Nombre del usuario</h3>
-        <p class="text-gray-500">Correo del usuario</p>
+  <div class="flex flex-col mb-4 gap-5 border border-b-cyan-200 rounded px-10 py-8">
+
+
+    <div class="gap-1 flex flex-col justify-center">
+      <!-- create label with styles-->
+      <label class="text-gray-500 block">Titulo</label>
+      <input type="text"
+             class="flex-1 rounded-l py-2 px-4 border border-b-cyan-600"
+              [(ngModel)]="titulo"
+             placeholder="" />
       </div>
-    </div>
+
+    <div class="gap-1 flex flex-col justify-center">
+      <!-- create label with styles-->
+      <label class="text-gray-500 block">Codigo</label>
+      <input type="text"
+             class="flex-1 rounded-l py-2 px-4 border border-b-cyan-600"
+             [(ngModel)]="codigo"
+             placeholder="" />
+      </div>
+
+    <div class="gap-1 flex flex-col justify-center">
+      <!-- create label with styles-->
+      <label class="text-gray-500 block">Descripcion</label>
+      <input type="text"
+             class="flex-1 rounded-l py-2 px-4 border border-b-cyan-600"
+             [(ngModel)]="descripcion"
+             placeholder="" />
+      </div>
+
+    <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-r" (click)="addGoal()">Agregar</button>
   </div>
 
   <h2 class="text-xl font-bold mb-4">Lista de metas</h2>
 
-  <div class="flex mb-4">
-    <input type="text"
-           class="flex-1 rounded-l py-2 px-4 border border-b-cyan-600"
-            [(ngModel)]="newGoal"
-           placeholder="" />
-    <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-r" (click)="addGoal()">Agregar</button>
-  </div>
-
-
   <ul>
-    <li [ngClass]="goal.isCompleted? 'bg-green-100':''" *ngFor="let goal of ($goals | async)" class="flex items-center justify-between border border-gray-200 py-2 px-3 my-2 rounded">
-      <p>Meta</p>
+    <li *ngFor="let goal of ($goals | async)" class="flex items-center justify-start border border-gray-200 py-2 px-3 my-2 rounded w-full">
+      <!--Create a checkbox to completed the goal-->
       <div class="inline-flex items-center">
         <label class="relative flex cursor-pointer items-center rounded-full p-3"
-          for="checkbox-7" data-ripple-dark="true">
+               for="checkbox-7" data-ripple-dark="true">
           <input type="checkbox"
-            class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-purple-500 checked:bg-purple-500 checked:before:bg-purple-500 hover:before:opacity-10"
-            id="checkbox-7"
-            [(ngModel)]="goal.isCompleted"
-            checked="{{ goal.isCompleted }}"
-            (change)="toggleGoal(goal)"
+                 class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-purple-500 checked:bg-purple-500 checked:before:bg-purple-500 hover:before:opacity-10"
+                 id="checkbox-7"
+                 [(ngModel)]="goal.estado"
+                 (click)="toggleGoal(goal)"
           />
           <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
             <svg
@@ -53,21 +66,56 @@
           </div>
         </label>
       </div>
+      <p class="w-2/12">{{ goal.titulo }}</p>
+      <div class="flex flex-col w-full ">
 
-      <span>{{ goal.title }}</span>
-      <div class="flex">
-        <p class="text-gray-500 mx-2">{{ goal.action }}</p>
-        <p class="text-gray-500 mx-2">{{ goal.frequency }}</p>
+        <div class="flex">
+          <p class="text-gray-500">codigo: {{ goal.codigo }}</p>
+          <p class="text-gray-500 px-2">Descripcion: {{ goal.descripcion }}</p>
+        </div>
+
+        <div class="w-auto">
+          <p>Lista de submetas</p>
+          <ul class="list-decimal w-full">
+            <li *ngFor="let subgoal of goal.submetas" class="flex items border-y border-b-gray-400 pb-2">
+              <div class="flex flex-grow ">
+                <p class="text-gray-500 mr-2">accion: {{ subgoal.accion }}</p>
+                <p class="text-gray-500 mx-2">frecuencia: {{ subgoal.frecuencia }}</p>
+                <p class="text-gray-500 mx-2">creado: {{ subgoal.created_at | date:'short':'ni'}}</p>
+              </div>
+              <span>estado: {{ subgoal.estado }}</span>
+              <!--Create a button to delete the subgoal-->
+            </li>
+          </ul>
+        </div>
+
       </div>
-      <div class="gap-2">
-        <button class="text-yellow-500 hover:text-yellow-600 mx-1" (click)="editGoal(goal)">Editar</button>
-        <button class="text-red-500 hover:text-red-600 mx-1" (click)="deleteGoal(goal)">Eliminar</button>
+      <div class="gap-2 w-3/12 flex flex-row gap-x-5">
+        <button class="text-green-500 hover:text-green-600 mx-1" (click)="addSubgoal(goal)">
+          <i class="ri-add-circle-line text-2xl"></i>
+        </button>
+        <button class="text-yellow-500 hover:text-yellow-600 mx-1" (click)="editGoal(goal)">
+          <i class="ri-edit-line text-2xl"></i>
+        </button>
+        <button class="text-red-500 hover:text-red-600 mx-1" (click)="deleteGoal(goal)">
+          <i class="ri-delete-bin-line text-2xl"></i>
+        </button>
       </div>
     </li>
   </ul>
 </div>
 
+
+
+
 <app-modal
   [showModal]="showModal"
+  [meta_id]="_subGoalService.idGoal"
   (closeModalEvent)="closeModal($event)">
 </app-modal>
+
+<app-modal-meta
+  [showModal]="showModalEditGoal"
+  (closeModalEvent)="closeModalEditGoal($event)"
+>
+</app-modal-meta>
